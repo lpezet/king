@@ -2,3 +2,4 @@ node_modules
 .project
 coverage
 temp
+.nyc_output
