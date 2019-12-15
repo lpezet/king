@@ -1,0 +1,67 @@
+{
+  "name": "@lpezet/king",
+  "version": "1.0.0",
+  "description": "Simple Rate Limiting API",
+  "main": "index.js",
+  "scripts": {
+    "release": "release-it",
+    "lint": "eslint lib/ tests/",
+    "fix": "eslint lib/ tests/ --fix",
+    "pretest": "npm run lint",
+    "test": "nyc mocha --bail --check-leaks --reporter spec \"./tests/**/*-test.js\"",
+    "posttest": "nyc check-coverage",
+    "integration-test": "mocha ./integration-tests/*-test.js",
+    "docs-gen": "doctoc README.md Mods.md --github --no-title",
+    "test-watch": "mocha --watch --reporter=spec",
+    "coverage": "nyc report --reporter=text-lcov | coveralls",
+    "test-bak": "mocha --bail --check-leaks --reporter spec \"./tests/**/*-test.js\"",
+    "test-ci-bak": "istanbul cover node_modules/mocha/bin/_mocha --report lcovonly -- --reporter spec --check-leaks \"./tests/**/*-test.js\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lpezet/king.git"
+  },
+  "keywords": [
+    "rate-limiting"
+  ],
+  "author": "Luke Pezet <lpezet@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/lpezet/king/issues"
+  },
+  "files": [
+    "LICENSE",
+    "README.md",
+    "index.js",
+    "lib/"
+  ],
+  "nyc": {
+    "include": "lib",
+    "check-coverage": true,
+    "lines": 90,
+    "statements": 90,
+    "functions": 90,
+    "branches": 80,
+    "reporter": [
+      "lcov",
+      "text-summary"
+    ]
+  },
+  "homepage": "https://github.com/lpezet/king#readme",
+  "dependencies": {
+    "@okta/jwt-verifier": "^1.0.0",
+    "express": "^4.16.4",
+    "redis": "^2.8.0"
+  },
+  "devDependencies": {
+    "chai": "^4.2.0",
+    "chai-spies": "^1.0.0",
+    "crypto": "^1.0.1",
+    "doctoc": "^1.4.0",
+    "eslint": "^6.1.0",
+    "mocha": "^5.0.0",
+    "nyc": "^14.1.1",
+    "release-it": "^12.3.0",
+    "sinon": "^4.1.6"
+  }
+}
