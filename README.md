@@ -125,16 +125,16 @@ Details:
 
 * Application Load Balancer: **$40.548/month**
     * Load balancer: $0.0225/hour = $16.74/month (0.0225 x 24 x 31)
-    * LCU (assuming an , , , , and ):
+    * LCU:
         * New connections (per second): 4 LCUs (100 connections per second / 25 connections per second)
         * Active connections (per minute): 0.03 LCUs (100 active connections per minute / 3,000 active connections per minute)
         * Processed bytes (GBs per hour): 0.034 LCUs (0.3352 GB/1 GB).
         * Rule evaluations (per second): 0 LCU
         * Total = $0.032/hour (4 LCU x $0.008/hour) = $23.808/month ($0.032 x 24 x 31)
-* Lambda (assuming 128MB): **$31.872/month**
+* Lambda: **$31.872/month**
   * Monthly compute charges = $13.1
     * Compute (seconds): 94,860,000 requests per month lasting 100ms = 9,486,000 seconds
-    * Compute (GB-s): 9,486,000 seconds x 128MB/1024 = 
+    * Compute (GB-s): 9,486,000 seconds x 128MB/1024 = 1,185,750 GB-s
     * Total Compute = 1,185,750 GB-s – 400,000 free tier GB-s = 785,750 GB-s
     * Total = 785,750 GB-s x $0.00001667 = $13.1
   * Monthly requests charges = $18.772
