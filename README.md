@@ -1,6 +1,6 @@
 # Simple Rate Limiting API
 
-The goal of this little project was to come up with a way for web services to leverage rate limiting as an external service.
+The goal of this little R&D was to come up with a way for web services to leverage rate limiting as an external service.
 The implementation is inspired by the many researches done to find a good starting point for more production-like implementation.
 
 * Rolling window ([with redis][1]) has been chosen (knowing drawbacks, especially size of lists for dayly/monthy limits for example)
