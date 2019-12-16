@@ -15,20 +15,28 @@ The implementation is inspired by the many researches done to find a good starti
 2. Create `.env` file based on `.env.sample`. Fill in Okta client id and domain.
 
 3. Start app with:
-	
-	npm start
+
+```bash	
+npm start
+```
 
 4. Get token from Okta:
 
-	curl -X POST -H "Authorization: Basic $(echo -n "_your_clientid:_your_clientsecret" | base64)" https://_your_okta_domain/oauth2/default/v2/token --data "grant_type=client_credentials&scope=customScope"
-	
+```bash
+curl -X POST -H "Authorization: Basic $(echo -n "_your_clientid:_your_clientsecret" | base64)" https://_your_okta_domain/oauth2/default/v2/token --data "grant_type=client_credentials&scope=customScope"
+```
+
 5. Copy the `access_token` from it and export it:
 
-	export TOKEN="...access token here..."
-	
+```bash
+export TOKEN="...access token here..."
+```
+
 6. Setup your client rate limit policy:
 
-	curl -X POST -H "Authorization: Bearer $TOKEN" http://localhost:3000/clients --data "config.minute=10" --data "config.hour=100"
+```bash
+curl -X POST -H "Authorization: Bearer $TOKEN" http://localhost:3000/clients --data "config.minute=10" --data "config.hour=100"
+```
 	
 You should get a JSON response echoing the configuration you just specified, something like this:
 
@@ -49,8 +57,10 @@ You should get a JSON response echoing the configuration you just specified, som
 
 7. Check rate limit against a resource key:
 
-	curl -H "Authorization: Bearer $TOKEN" http://localhost:3000/clients/_your_client_id/resources/some_arbitrary_key
-	
+```bash
+curl -H "Authorization: Bearer $TOKEN" http://localhost:3000/clients/_your_client_id/resources/some_arbitrary_key
+```
+
 You should get a JSON response with periods and their status (pass or exceeded). Something of the sort:
 
 ```json
