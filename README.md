@@ -20,19 +20,25 @@ The implementation is inspired by the many researches done to find a good starti
 npm start
 ```
 
-4. Get token from Okta:
+4. Start redis
+
+```bash
+redis-server
+```
+
+5. Get token from Okta:
 
 ```bash
 curl -X POST -H "Authorization: Basic $(echo -n "_your_clientid:_your_clientsecret" | base64)" https://_your_okta_domain/oauth2/default/v2/token --data "grant_type=client_credentials&scope=customScope"
 ```
 
-5. Copy the `access_token` from it and export it:
+6. Copy the `access_token` from it and export it:
 
 ```bash
 export TOKEN="...access token here..."
 ```
 
-6. Setup your client rate limit policy:
+7. Setup your client rate limit policy:
 
 ```bash
 curl -X POST -H "Authorization: Bearer $TOKEN" http://localhost:3000/clients --data "config.minute=10" --data "config.hour=100"
@@ -55,7 +61,7 @@ You should get a JSON response echoing the configuration you just specified, som
 ]
 ```
 
-7. Check rate limit against a resource key:
+8. Check rate limit against a resource key:
 
 ```bash
 curl -H "Authorization: Bearer $TOKEN" http://localhost:3000/clients/_your_client_id/resources/some_arbitrary_key
@@ -106,7 +112,11 @@ The `-Reset` headers are only provided when rate limited.
 
 # AWS ElasticBeanstalk 
 
-TODO
+
+* EC2: m5.large (): $71.424/month
+* Classic Load Balancer: $18.6/month + $0.104 ($0.008*13GB=$0.104) = $18.704/month
+* ...
+
 
 # AWS Lambda
 
@@ -115,14 +125,19 @@ Assuming:
 * An average 100 new connections per second for Load Balancer
 * Client sends an average of 5 requests per second per connection (over 94M requests per month)
 * Each request lasts around 100ms
-* 2,000 bytes per request (JWT token is quite big)
+* 2,000 bytes per request (JWT token is quite big) (about 12.5GB/month)
 * 10 rules on the load balancer
 * 128MB memory for Lambda
+* Using DynamoDB to store rate-limit policies. Policies are written only once or so, so writes are not considered. We use a cache (5 minutes) to avoid too many reads, leading to about 9K reads, which is again marginal.
 
-Estimated costs is **$72.42/month**
+Estimated costs is **<$75/month**
 
 Details:
 
+* DynamoDB: **<$1/month**
+    * Writes: $0
+    * Reads: $0
+    * Storage: $0 (Free tier)
 * Application Load Balancer: **$40.548/month**
     * Load balancer: $0.0225/hour = $16.74/month (0.0225 x 24 x 31)
     * LCU:
